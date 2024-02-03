@@ -5,13 +5,11 @@ const ApiError = require('../error/ApiError')
 class MaterialController {
     async create(req, res, next) {
         try {
-            const {title, description, date_publication, userId, categoryId} = req.body
+            const {title, description, date_publication, userId, categoryId, subjectId, groupId} = req.body
             const {file} = req.files
             let fileName = uuid.v4() + ".pdf"
             file.mv(path.resolve(__dirname, '..', 'static', fileName))
-
-            const material = await Material.create({title, description, date_publication, userId, categoryId, file: fileName})
-
+            const material = await Material.create({title, description, date_publication, userId, categoryId, subjectId, groupId, file: fileName})
             return res.json(material)
         } catch (e) {
             next(ApiError.badRequest(e.message))

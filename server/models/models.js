@@ -6,7 +6,6 @@ const User = sequelize.define('user', {
     name: {type: DataTypes.STRING, unique: true},
     email: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
-    role: {type: DataTypes.STRING, defaultValue: "USER"}
 })
 
 const Material = sequelize.define('material', {
@@ -22,14 +21,42 @@ const Category = sequelize.define('category', {
     title: {type: DataTypes.STRING, unique: true, allowNull: false},
 })
 
+const Subject = sequelize.define('subject', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, unique: true, allowNull: false},
+})
+
+const Group = sequelize.define('group', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, unique: true, allowNull: false},
+})
+
+const Role = sequelize.define('role', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, unique: true, allowNull: false},
+})
+
+
 User.hasMany(Material)
 Material.belongsTo(User)
 
 Category.hasMany(Material)
 Material.belongsTo(Category)
 
+Subject.hasMany(Material)
+Material.belongsTo(Subject)
+
+Group.hasMany(Material)
+Material.belongsTo(Group)
+
+Role.hasMany(User)
+User.belongsTo(Role)
+
 module.exports = {
     User,
     Material,
-    Category
+    Category,
+    Subject,
+    Group,
+    Role
 }

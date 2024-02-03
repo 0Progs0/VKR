@@ -5,14 +5,14 @@ const {User} = require('../models/models')
 
 const generateJwt = (id, name, email, role) => {
     return jwt.sign(
-        {id, name, email, role},
+        {id, name, email, roleId},
         process.env.SECRET_KEY,
         {expiresIn: '24h'}
     )
 }
 class UserController {
     async registration(req, res, next) {
-        const {name, email, password, role} = req.body
+        const {name, email, password, roleId} = req.body
         if (!name || !email || !password) {
             return next(ApiError.badRequest('Некоректное заполнение полей!'))
         }
@@ -22,7 +22,7 @@ class UserController {
         }
         const hashPassword = await bcrypt.hash(password, 5)
         const user = await User.create({name, email, password: hashPassword})
-        const token = generateJwt(user.id, user.name, user.email, user.role)
+        const token = generateJwt(user.id, user.name, user.email, user.roleId)
         return res.json({token})
     }
 
@@ -36,12 +36,12 @@ class UserController {
         if (!comparePassword) {
             return next(ApiError.internal('Неверный пароль'))
         }
-        const token = generateJwt(user.id, user.name, user.email, user.role)
+        const token = generateJwt(user.id, user.name, user.email, user.roleId)
         return res.json({token})
     }
 
     async check(req, res, next) {
-        const token = generateJwt(req.user.id, req.user.name, req.user.email, req.user.role)
+        const token = generateJwt(req.user.id, req.user.name, req.user.email, req.user.roleId)
         return res.json({token})
     }
 }
