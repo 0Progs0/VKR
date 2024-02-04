@@ -20,6 +20,10 @@ export default class MaterialStore {
             {id:3, title:'Другое название', description:'Базы данных Денисова', date_publication:"2023-12-18 20:08:20.563+03", file:'http://repo.ssau.ru/bitstream/Uchebnye-izdaniya/Osnovy-baz-dannyh-96560/1/Крикунов%20М.М.%20Основы%20баз%20данных%202021.pdf'},
             {id:4, title:'Другое название', description:'Базы данных Денисова', date_publication:"2023-12-18 20:08:20.563+03", file:'http://repo.ssau.ru/bitstream/Uchebnye-izdaniya/Osnovy-baz-dannyh-96560/1/Крикунов%20М.М.%20Основы%20баз%20данных%202021.pdf'}
         ]
+        this._selectedCategory = {}
+        this._selectedSubject = {}
+        this._selectedGroup = {}
+
         makeAutoObservable(this)
     }
 
@@ -29,28 +33,42 @@ export default class MaterialStore {
     setSubjects(subjects) {
         this._subjects = subjects
     }
-
     setGroups(groups) {
         this._groups = groups
     }
-
     setMaterials(materials) {
         this._materials = materials
+    }
+    setSelectedCategory(category) {
+        this._selectedCategory = category
+    }
+    setSelectedSubject(subject) {
+        this._selectedSubject = subject
+    }
+    setSelectedGroup(group) {
+        this._selectedGroup = group
     }
 
     get categories() {
         return this._categories
     }
-
     get subjects() {
         return this._subjects
     }
-
     get groups() {
         return this._groups
     }
-
     get materials() {
         return this._materials
+    }
+    get selectedCategory() {
+        return this._selectedCategory
+    }
+    get selectedSubject() {
+        return this._selectedSubject
+    }
+
+    get selectedGroup() {
+        return this._selectedGroup
     }
 }
