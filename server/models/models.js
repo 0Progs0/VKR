@@ -12,7 +12,7 @@ const Material = sequelize.define('material', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING, unique: true, allowNull: false},
     description: {type: DataTypes.STRING},
-    date_publication: {type: DataTypes.DATE},
+    date_publication: {type: DataTypes.DATEONLY},
     file: {type: DataTypes.STRING}
 })
 

@@ -28,4 +28,8 @@ export const publicRoutes = [
         path: MATERIAL_ROUTE + '/:id',
         Component: MaterialPage
     },
+    {
+        path: ADMIN_ROUTE,
+        Component: Admin
+    }
 ]

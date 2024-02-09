@@ -12,7 +12,7 @@ const MaterialItem = ({material}) => {
                 <div className={"p-1"}>
                 <div className={"d-flex justify-content-between"}>
                     <h5>{material.title}</h5>
-                    <div style={{color:"gray"}}>Опубликовано: {material.date_publication.substring(0, 10)}</div>
+                    <div style={{color:"gray"}}>Опубликовано: {material.date_publication}</div>
                 </div>
                     <div>Имя автора</div>
                     <div>Описание: {material.description}</div>
