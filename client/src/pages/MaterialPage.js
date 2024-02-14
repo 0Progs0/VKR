@@ -15,7 +15,7 @@ const MaterialPage = () => {
             </Row>
             <Row className={"d-flex mt-3"}>
                 <Col md={8}>
-                    <object data={material.file + "#zoom=85&scrollbar=0&toolbar=0&navpanes=0"} style={{width:850, height:650}}/>
+                    <object data={process.env.REACT_APP_API_URL + material.file + "#zoom=85&scrollbar=0&toolbar=0&navpanes=0"} style={{width:850, height:650}}/>
                 </Col>
                 <Col md={4}>
                     <Card className={"d-flex flex-column"} style={{width:300, height:200}}>
