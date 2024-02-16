@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
-import {Document} from "react-pdf";
+import {useParams} from 'react-router-dom'
+import {fetchOneMaterial} from "../components/http/materialAPI";
 
 const MaterialPage = () => {
-    const material = {id:1, title:'Название', description:'Лекции Денисова', date_publication:"2023-12-18 20:08:20.563+03", file:'http://repo.ssau.ru/bitstream/Uchebnye-izdaniya/Osnovy-baz-dannyh-96560/1/Крикунов%20М.М.%20Основы%20баз%20данных%202021.pdf'}
+    const [material, setMaterial] = useState()
+    const {id} = useParams()
+
+    useEffect(() => {
+        fetchOneMaterial(id).then(data => setMaterial(data))
+        }
+    ,[])
     return (
         <Container>
             <Row><h3>Название материала</h3></Row>

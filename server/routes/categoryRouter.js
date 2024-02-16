@@ -3,7 +3,7 @@ const router = new Router()
 const categoryController = require('../controllers/categoryController')
 const checkRole = require('../middleware/checkRoleMiddleware')
 
-router.post('/', checkRole('1'),   categoryController.create)
+router.post('/', checkRole(1),   categoryController.create)
 router.get('/', categoryController.getAll)
 
 module.exports = router

@@ -1,7 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
+import {createCategory, createGroup} from "../http/materialAPI";
 
 const CreateGroup = ({show, onHide}) => {
+    const [value, setValue] = useState('')
+    const addGroup = () => {
+        createGroup({title: value}).then(data => {
+            setValue('')
+            onHide()
+        })
+    }
     return (
         <Modal
             show={show}
@@ -16,11 +24,15 @@ const CreateGroup = ({show, onHide}) => {
             </Modal.Header>
             <Modal.Body>
                 <Form>
-                    <Form.Control placeholder={"Введите название группы"}></Form.Control>
+                    <Form.Control
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        placeholder={"Введите название группы"}>
+                    </Form.Control>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"success"} onClick={onHide}>Добавить</Button>
+                <Button variant={"success"} onClick={addGroup}>Добавить</Button>
                 <Button variant={"danger"} onClick={onHide}>Закрыть</Button>
             </Modal.Footer>
         </Modal>

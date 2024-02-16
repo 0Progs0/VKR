@@ -30,7 +30,7 @@ export const fetchGroups = async () => {
     return data
 }
 
-export const creatMaterial = async (material) => {
+export const createMaterial = async (material) => {
     const {data} = await hostAuth.post('api/material', material)
     return data
 }
