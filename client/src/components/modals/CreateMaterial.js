@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import {Context} from "../../index";
-import {createMaterial, fetchCategories, fetchGroups, fetchMaterials, fetchSubjects} from "../http/materialAPI";
+import {createMaterial, fetchCategories, fetchGroups, fetchSubjects} from "../http/materialAPI";
 import {jwtDecode} from "jwt-decode";
 import {observer} from "mobx-react-lite";
 
 const CreateMaterial = observer(({show, onHide}) => {
-    const {user, material} = useContext(Context)
+    const {material} = useContext(Context)
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
     const [file,setFile] = useState(null)

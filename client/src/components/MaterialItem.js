@@ -5,7 +5,6 @@ import {MATERIAL_ROUTE} from "../utils/consts";
 
 const MaterialItem = ({material}) => {
     const navigate = useNavigate()
-    console.log(navigate)
     return (
         <Col md={9} onClick={() => navigate(MATERIAL_ROUTE + '/' + material.id)}>
             <Card className={"mt-2 mb-2 p-1"} style={{cursor:'pointer'}} border={"primary"}>
