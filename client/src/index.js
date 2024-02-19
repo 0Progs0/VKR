@@ -9,7 +9,6 @@ console.log(process.env.REACT_APP_API_URL)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
       <Context.Provider value={{
           user: new UserStore(),
           material: new MaterialStore(),
@@ -17,5 +16,4 @@ root.render(
 
           <App/>
       </Context.Provider>
-  </React.StrictMode>
 );

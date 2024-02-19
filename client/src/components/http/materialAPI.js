@@ -35,8 +35,10 @@ export const createMaterial = async (material) => {
     return data
 }
 
-export const fetchMaterials = async () => {
-    const {data} = await host.get('api/material')
+export const fetchMaterials = async (subjectId, groupId, categoryId, page, limit= 5) => {
+    const {data} = await host.get('api/material', {params: {
+        subjectId, groupId, categoryId, page, limit
+        }})
     return data
 }
 

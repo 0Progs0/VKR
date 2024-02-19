@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, Col} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import {MATERIAL_ROUTE} from "../utils/consts";
+import {jwtDecode} from "jwt-decode";
 
 const MaterialItem = ({material}) => {
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ const MaterialItem = ({material}) => {
                     <h5>{material.title}</h5>
                     <div style={{color:"gray"}}>Опубликовано: {material.date_publication}</div>
                 </div>
-                    <div>Имя автора</div>
+                    <div>Автор: {jwtDecode(localStorage.getItem('token')).name}</div>
                     <div>Описание: {material.description}</div>
                 </div>
             </Card>

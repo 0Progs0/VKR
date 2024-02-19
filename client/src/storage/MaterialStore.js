@@ -9,6 +9,9 @@ export default class MaterialStore {
         this._selectedCategory = {}
         this._selectedSubject = {}
         this._selectedGroup = {}
+        this._currentPage = 1
+        this._totalCount = 0
+        this._limit = 3
 
         makeAutoObservable(this)
     }
@@ -26,13 +29,26 @@ export default class MaterialStore {
         this._materials = materials
     }
     setSelectedCategory(category) {
+        this.setCurrentPage(1)
         this._selectedCategory = category
     }
     setSelectedSubject(subject) {
+        this.setCurrentPage(1)
         this._selectedSubject = subject
     }
     setSelectedGroup(group) {
+        this.setCurrentPage(1)
         this._selectedGroup = group
+    }
+
+    setCurrentPage(page) {
+        this._currentPage = page
+    }
+    setTotalCount(count) {
+        this._totalCount = count
+    }
+    setLimit(limit) {
+        this._limit = limit
     }
 
     get categories() {
@@ -56,5 +72,15 @@ export default class MaterialStore {
 
     get selectedGroup() {
         return this._selectedGroup
+    }
+
+    get currentPage() {
+        return this._currentPage
+    }
+    get totalCount() {
+        return this._totalCount
+    }
+    get limit() {
+        return this._limit
     }
 }

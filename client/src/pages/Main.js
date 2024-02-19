@@ -7,6 +7,7 @@ import MaterialList from "../components/MaterialList";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {fetchCategories, fetchGroups, fetchMaterials, fetchSubjects} from "../components/http/materialAPI";
+import Pages from "../components/Pages";
 
 
 const Main = observer(() => {
@@ -16,8 +17,19 @@ const Main = observer(() => {
         fetchSubjects().then(data => material.setSubjects(data))
         fetchCategories().then(data => material.setCategories(data))
         fetchGroups().then(data => material.setGroups(data))
-        fetchMaterials().then(data => material.setMaterials(data.rows))
+        fetchMaterials(null, null, null, 1, 2).then(data => {
+            material.setMaterials(data.rows)
+            material.setTotalCount(data.count)
+        })
     }, [])
+
+    useEffect(() => {
+        fetchMaterials(material.selectedSubject.id, material.selectedGroup.id, material.selectedCategory.id, material.currentPage, 2).then(data => {
+            material.setMaterials(data.rows)
+            material.setTotalCount(data.count)
+        })
+    }, [material.selectedSubject, material.selectedGroup, material.selectedCategory, material.currentPage])
+
     return (
         <Container>
             <Row className={"mt-2"}>
@@ -28,6 +40,7 @@ const Main = observer(() => {
                     <GroupBar/>
                     <CategoryBar/>
                     <MaterialList/>
+                    <Pages/>
                 </Col>
             </Row>
         </Container>

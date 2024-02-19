@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
 import {useParams} from 'react-router-dom'
-import {fetchCategories, fetchGroups, fetchOneMaterial} from "../components/http/materialAPI";
+import {fetchCategories, fetchGroups, fetchOneMaterial, fetchSubjects} from "../components/http/materialAPI";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 
@@ -11,6 +11,7 @@ const MaterialPage = observer(() => {
     const {material} = useContext(Context)
     useEffect(() => {
             fetchOneMaterial(id).then(data => setCurrentMaterial(data))
+            fetchSubjects().then(data => material.setSubjects(data))
             fetchCategories().then(data => material.setCategories(data))
             fetchGroups().then(data => material.setGroups(data))
             }
