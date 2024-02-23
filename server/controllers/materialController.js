@@ -18,22 +18,62 @@ class MaterialController {
     }
 
     async getAll(req, res) {
-        let {userId, categoryId, limit, page} = req.query
+        let {userId, subjectId, groupId, categoryId, limit, page} = req.query
         page = page || 1
         limit = limit || 9
         let offset = page * limit - limit
         let materials;
-        if (!userId && !categoryId) {
+        if (!userId && !subjectId && !groupId && !categoryId) {
             materials = await Material.findAndCountAll({limit, offset})
         }
-        if (userId && !categoryId) {
+
+        if (userId && !subjectId && !groupId && !categoryId) {
             materials = await Material.findAndCountAll({where:{userId}, limit, offset})
         }
-        if (!userId && categoryId) {
+        if (!userId && subjectId && !groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{subjectId}, limit, offset})
+        }
+        if (!userId && !subjectId && groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{groupId}, limit, offset})
+        }
+        if (!userId && !subjectId && !groupId && categoryId) {
             materials = await Material.findAndCountAll({where:{categoryId}, limit, offset})
         }
-        if (userId && categoryId) {
+
+        if (userId && subjectId && !groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, subjectId}, limit, offset})
+        }
+        if (userId && !subjectId && groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, groupId}, limit, offset})
+        }
+        if (userId && !subjectId && !groupId && categoryId) {
             materials = await Material.findAndCountAll({where:{userId, categoryId}, limit, offset})
+        }
+        if (!userId && subjectId && groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{subjectId, groupId}, limit, offset})
+        }
+        if (!userId && subjectId && !groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{subjectId, categoryId}, limit, offset})
+        }
+        if (!userId && !subjectId && groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{groupId, categoryId}, limit, offset})
+        }
+
+        if (!userId && subjectId && groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{groupId, subjectId, categoryId}, limit, offset})
+        }
+        if (userId && !subjectId && groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, groupId, categoryId}, limit, offset})
+        }
+        if (userId && subjectId && !groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, subjectId, categoryId}, limit, offset})
+        }
+        if (userId && subjectId && groupId && !categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, subjectId, groupId}, limit, offset})
+        }
+
+        if (userId && subjectId && groupId && categoryId) {
+            materials = await Material.findAndCountAll({where:{userId, subjectId, groupId,categoryId}, limit, offset})
         }
         return res.json(materials)
     }

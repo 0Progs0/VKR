@@ -8,12 +8,14 @@ import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {fetchCategories, fetchGroups, fetchMaterials, fetchSubjects} from "../components/http/materialAPI";
 import Pages from "../components/Pages";
+import {fetchUsers} from "../components/http/userAPI";
 
 
 const Main = observer(() => {
-    const {material} = useContext(Context)
+    const {user,material} = useContext(Context)
 
     useEffect(() => {
+        fetchUsers().then(data => user.setAllUsers(data))
         fetchSubjects().then(data => material.setSubjects(data))
         fetchCategories().then(data => material.setCategories(data))
         fetchGroups().then(data => material.setGroups(data))

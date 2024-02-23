@@ -1,8 +1,9 @@
 import Admin from "./pages/Admin";
-import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, MATERIAL_ROUTE, REGISTRATION_ROUTE} from "./utils/consts";
+import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, MATERIAL_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE} from "./utils/consts";
 import Auth from "./pages/Auth";
 import Main from "./pages/Main";
 import MaterialPage from "./pages/MaterialPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export const authRoutes = [
     {
@@ -31,5 +32,9 @@ export const publicRoutes = [
     {
         path: ADMIN_ROUTE,
         Component: Admin
+    },
+    {
+        path: PROFILE_ROUTE,
+        Component: ProfilePage
     }
 ]

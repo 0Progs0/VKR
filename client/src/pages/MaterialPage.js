@@ -18,11 +18,11 @@ const MaterialPage = observer(() => {
     ,[])
     return (
         <Container>
-            <Row><h3>{currentMaterial?.title}</h3></Row>
+            <Row><h3>{currentMaterial.title}</h3></Row>
             <Row>
                 <Col className={"d-flex"}>
-                <Card className={"me-1 p-1"}>{material.categories[currentMaterial?.categoryId - 1]?.title}</Card>
-                <Card className={"me-1 p-1"}>{material.groups[currentMaterial?.groupId - 1]?.title}</Card>
+                <Card className={"me-1 p-1"}>{material.categories[currentMaterial.categoryId - 1]?.title}</Card>
+                <Card className={"me-1 p-1"}>{material.groups[currentMaterial.groupId - 1]?.title}</Card>
             </Col>
             </Row>
             <Row className={"d-flex mt-3"}>
@@ -31,6 +31,7 @@ const MaterialPage = observer(() => {
                 </Col>
                 <Col md={4}>
                     <Card className={"d-flex flex-column"} style={{width:300, height:200}}>
+                        <div className={"ms-2 p-2"}>{currentMaterial.description}</div>
                         <div className={"ms-2 p-2"}><Button variant={"primary"}>Скачать</Button></div>
                     </Card>
                 </Col>

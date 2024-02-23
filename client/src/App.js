@@ -6,6 +6,7 @@ import {Context} from "./index";
 import {useContext, useEffect, useState} from "react";
 import {check} from "./components/http/userAPI";
 import {Container, Spinner} from "react-bootstrap";
+import Footer from "./components/Footer";
 
 const App = observer(() => {
     const {user} = useContext(Context)
@@ -29,6 +30,7 @@ const App = observer(() => {
     <BrowserRouter>
         <NavBar/>
         <AppRouter/>
+        <Footer/>
     </BrowserRouter>
   );
 })
