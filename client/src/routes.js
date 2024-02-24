@@ -30,10 +30,6 @@ export const publicRoutes = [
         Component: MaterialPage
     },
     {
-        path: ADMIN_ROUTE,
-        Component: Admin
-    },
-    {
         path: PROFILE_ROUTE,
         Component: ProfilePage
     }

@@ -14,6 +14,9 @@ const Material = sequelize.define('material', {
     description: {type: DataTypes.STRING},
     date_publication: {type: DataTypes.DATEONLY},
     file: {type: DataTypes.STRING}
+}, {
+    createdAt:false,
+    updatedAt:false
 })
 
 const Category = sequelize.define('category', {

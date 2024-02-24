@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom'
 import {fetchCategories, fetchGroups, fetchOneMaterial, fetchSubjects} from "../components/http/materialAPI";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
+import fileSaver from "file-saver/dist/FileSaver";
 
 const MaterialPage = observer(() => {
     const [currentMaterial, setCurrentMaterial] = useState({})
@@ -16,6 +17,11 @@ const MaterialPage = observer(() => {
             fetchGroups().then(data => material.setGroups(data))
             }
     ,[])
+
+
+    const downloadFile = () => {
+        fileSaver.saveAs(process.env.REACT_APP_API_URL + currentMaterial.file)
+    }
     return (
         <Container>
             <Row><h3>{currentMaterial.title}</h3></Row>
@@ -30,9 +36,9 @@ const MaterialPage = observer(() => {
                     <embed src={process.env.REACT_APP_API_URL + currentMaterial.file + "#zoom=85&scrollbar=0&toolbar=0&navpanes=0"} style={{width:850, height:650}}/>
                 </Col>
                 <Col md={4}>
-                    <Card className={"d-flex flex-column"} style={{width:300, height:200}}>
+                    <Card className={"d-flex flex-column"}>
                         <div className={"ms-2 p-2"}>{currentMaterial.description}</div>
-                        <div className={"ms-2 p-2"}><Button variant={"primary"}>Скачать</Button></div>
+                        <div className={"ms-2 p-2"}><Button variant={"primary"} onClick={downloadFile}>Скачать</Button></div>
                     </Card>
                 </Col>
             </Row>

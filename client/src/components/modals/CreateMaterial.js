@@ -2,11 +2,10 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import {Context} from "../../index";
 import {createMaterial, fetchCategories, fetchGroups, fetchSubjects} from "../http/materialAPI";
-import {jwtDecode} from "jwt-decode";
 import {observer} from "mobx-react-lite";
 
 const CreateMaterial = observer(({show, onHide}) => {
-    const {material} = useContext(Context)
+    const {user, material} = useContext(Context)
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
     const [file,setFile] = useState(null)
@@ -28,7 +27,7 @@ const CreateMaterial = observer(({show, onHide}) => {
         formData.append('description', description)
         formData.append('date_publication', new Date())
         formData.append('file', file)
-        formData.append('userId', jwtDecode(localStorage.getItem('token')).id)
+        formData.append('userId', user.user.roleId)
         formData.append('categoryId', material.selectedCategory.id)
         formData.append('subjectId', material.selectedSubject.id)
         formData.append('groupId', material.selectedGroup.id)

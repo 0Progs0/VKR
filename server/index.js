@@ -22,7 +22,7 @@ app.use(errorHandler)//Последний middleware
 const start = async () => {
     try {
         await sequelize.authenticate()
-        await sequelize.sync()
+        await sequelize.sync({ alter:true })
         app.listen(PORT, () => console.log(`Server start on port ${PORT}`))
     } catch (e) {
         console.log(e)
