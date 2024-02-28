@@ -5,7 +5,7 @@ import {Pagination} from "react-bootstrap";
 
 const Pages = observer(() => {
     const {material} = useContext(Context)
-    const pageCount = Math.ceil(material.totalCount / material.limit)
+    const pageCount = Math.floor(material.totalCount / material.limit)
     const pages = []
 
     for (let i = 0; i <= pageCount; i++) {

@@ -1,20 +1,23 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import {Context} from "../../index";
-import {createMaterial, fetchCategories, fetchGroups, fetchSubjects} from "../http/materialAPI";
+import {createMaterial} from "../http/materialAPI";
+import {fetchSubjects} from "../http/subjectAPI";
+import {fetchGroups} from "../http/groupAPI";
+import {fetchCategories} from "../http/categoryAPI";
 import {observer} from "mobx-react-lite";
 
 const CreateMaterial = observer(({show, onHide}) => {
-    const {user, material} = useContext(Context)
+    const {user, material, subject, group, category} = useContext(Context)
     const [title,setTitle] = useState('')
     const [description,setDescription] = useState('')
     const [file,setFile] = useState(null)
 
 
     useEffect(() => {
-        fetchSubjects().then(data => material.setSubjects(data))
-        fetchCategories().then(data => material.setCategories(data))
-        fetchGroups().then(data => material.setGroups(data))
+        fetchSubjects().then(data => subject.setSubjects(data))
+        fetchCategories().then(data => category.setCategories(data))
+        fetchGroups().then(data => group.setGroups(data))
     }, [])
 
     const selectFile = e => {
@@ -27,10 +30,10 @@ const CreateMaterial = observer(({show, onHide}) => {
         formData.append('description', description)
         formData.append('date_publication', new Date())
         formData.append('file', file)
-        formData.append('userId', user.user.roleId)
-        formData.append('categoryId', material.selectedCategory.id)
-        formData.append('subjectId', material.selectedSubject.id)
-        formData.append('groupId', material.selectedGroup.id)
+        formData.append('userId', user.user.id)
+        formData.append('categoryId', category.selectedCategory.id)
+        formData.append('subjectId', subject.selectedSubject.id)
+        formData.append('groupId', group.selectedGroup.id)
         createMaterial(formData).then(data => onHide())
     }
 
@@ -49,26 +52,26 @@ const CreateMaterial = observer(({show, onHide}) => {
             <Modal.Body>
                 <Form>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{material.selectedSubject.title || "Выберите предмет"}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{subject.selectedSubject.title || "Выберите предмет"}</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {material.subjects.map(subject =>
-                                <Dropdown.Item onClick={() => material.setSelectedSubject(subject)} key={subject.id}>{subject.title}</Dropdown.Item>
+                            {subject.subjects.map(subjectItem =>
+                                <Dropdown.Item onClick={() => subject.setSelectedSubject(subjectItem)} key={subjectItem.id}>{subjectItem.title}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{material.selectedCategory.title || "Выберите вид"}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{category.selectedCategory.title || "Выберите вид"}</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {material.categories.map(category =>
-                                <Dropdown.Item onClick={() => material.setSelectedCategory(category)} key={category.id}>{category.title}</Dropdown.Item>
+                            {category.categories.map(categoryItem =>
+                                <Dropdown.Item onClick={() => category.setSelectedCategory(categoryItem)} key={categoryItem.id}>{categoryItem.title}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{material.selectedGroup.title || "Выберите категорию"}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{group.selectedGroup.title || "Выберите категорию"}</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            {material.groups.map(group =>
-                                <Dropdown.Item onClick={() => material.setSelectedGroup(group)} key={group.id}>{group.title}</Dropdown.Item>
+                            {group.groups.map(groupItem =>
+                                <Dropdown.Item onClick={() => group.setSelectedGroup(groupItem)} key={groupItem.id}>{groupItem.title}</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>

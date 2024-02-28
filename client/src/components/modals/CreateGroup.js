@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {createCategory, createGroup} from "../http/materialAPI";
+import {createGroup} from "../http/groupAPI";
 
 const CreateGroup = ({show, onHide}) => {
     const [value, setValue] = useState('')
@@ -19,7 +19,7 @@ const CreateGroup = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить предмет
+                    Добавить группу
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

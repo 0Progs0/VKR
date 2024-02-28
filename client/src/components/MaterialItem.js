@@ -2,7 +2,6 @@ import React from 'react';
 import {Card, Col} from "react-bootstrap";
 import {useNavigate} from 'react-router-dom'
 import {MATERIAL_ROUTE} from "../utils/consts";
-import {jwtDecode} from "jwt-decode";
 
 const MaterialItem = ({user, material}) => {
     const navigate = useNavigate()

@@ -17,6 +17,11 @@ export const fetchUsers = async () => {
     return (data)
 }
 
+export const updateProfileImg = async (user) => {
+    const {data} = await host.put('api/user/' + user.id, user)
+    return data
+}
+
 export const check = async () => {
     const {data} = await hostAuth.get('api/user/auth')
     localStorage.setItem('token', data.token)

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {createSubject} from "../http/materialAPI";
+import {createSubject} from "../http/subjectAPI";
 
 const CreateSubject = ({show, onHide}) => {
     const [value, setValue] = useState('')

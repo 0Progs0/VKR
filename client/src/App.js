@@ -16,11 +16,12 @@ const App = observer(() => {
     useEffect(() => {
         setTimeout(() => {
                 check().then(data => {
-                    user.setUser(jwtDecode(localStorage.getItem('token')))
+                    user.setUser(data)
                     user.setIsAuth(true)
                 }).finally(() => setLoading(false))
             }, 1000)
         }, [])
+    console.log(user)
     if (loading) {
         return <Container className={"d-flex justify-content-center"}><Spinner animation="border" variant="primary" /></Container>
     }

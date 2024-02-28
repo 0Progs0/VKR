@@ -4,20 +4,20 @@ import {Card, Container} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
 const CategoryBar = observer(() => {
-    const {material} = useContext(Context)
+    const {category} = useContext(Context)
     return (
         <Container>
             <div style={{color:'gray'}} className={"p-2 ms-2"}>Выберите вид материалов:</div>
             <Container className={"d-flex"}>
-                {material.categories.map(category =>
+                {category.categories.map(categoryItem =>
                     <Card
-                        key={category.id}
-                        onClick={() => material.setSelectedCategory(category)}
-                        border={category.id === material.selectedCategory.id ? 'primary' : 'light'}
+                        key={categoryItem.id}
+                        onClick={() => category.setSelectedCategory(categoryItem)}
+                        border={categoryItem.id === category.selectedCategory.id ? 'primary' : 'light'}
                         className={"p-2 ms-1"}
                         style={{cursor:'pointer'}}
                     >
-                        {category.title}
+                        {categoryItem.title}
                     </Card>
                 )}
             </Container>

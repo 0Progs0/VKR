@@ -16,8 +16,8 @@ class MaterialController {
         }
 
     }
-
-    async getAll(req, res) {
+    async getAll(req, res, next) {
+        try {
         let {userId, subjectId, groupId, categoryId, limit, page} = req.query
         page = page || 1
         limit = limit || 9
@@ -76,9 +76,13 @@ class MaterialController {
             materials = await Material.findAndCountAll({where:{userId, subjectId, groupId,categoryId}, limit, offset})
         }
         return res.json(materials)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
+        try {
         const {id} = req.params
         const material = await Material.findOne(
             {
@@ -86,6 +90,9 @@ class MaterialController {
             }
         )
         return res.json(material)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
 }
 

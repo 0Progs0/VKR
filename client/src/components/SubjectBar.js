@@ -4,17 +4,17 @@ import {Context} from "../index";
 import {ListGroup} from "react-bootstrap";
 
 const SubjectBar = observer(() => {
-    const {material} = useContext(Context)
+    const {subject} = useContext(Context)
     return (
         <ListGroup className={"list-group-bg:"}>
-            {material.subjects.map(subject =>
+            {subject.subjects.map(subjectItem =>
             <ListGroup.Item
-                key={subject.id}
-                onClick={() => material.setSelectedSubject(subject)}
-                active={subject.id === material.selectedSubject.id}
+                key={subjectItem.id}
+                onClick={() => subject.setSelectedSubject(subjectItem)}
+                active={subjectItem.id === subject.selectedSubject.id}
                 style={{cursor:'pointer'}}
             >
-                {subject.title}
+                {subjectItem.title}
             </ListGroup.Item>
             )}
         </ListGroup>

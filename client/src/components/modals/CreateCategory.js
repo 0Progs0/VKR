@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {createCategory, createSubject} from "../http/materialAPI";
+import {createCategory} from "../http/categoryAPI";
+
 
 const CreateCategory = ({show, onHide}) => {
     const [value, setValue] = useState('')
@@ -19,7 +20,7 @@ const CreateCategory = ({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить предмет
+                    Добавить категорию
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>

@@ -4,20 +4,20 @@ import {Context} from "../index";
 import {Card, Container} from "react-bootstrap";
 
 const GroupBar = observer(() => {
-    const {material} = useContext(Context)
+    const {group} = useContext(Context)
     return (
         <Container>
             <div style={{color:'gray'}} className={"p-2 ms-2"}>Выберите категорию материалов:</div>
             <Container className={"d-flex"}>
-            {material.groups.map(group =>
+            {group.groups.map(groupsItem =>
                 <Card
-                    key={group.id}
-                    onClick={() => material.setSelectedGroup(group)}
-                    border={group.id === material.selectedGroup.id ? 'primary' : 'light'}
+                    key={groupsItem.id}
+                    onClick={() => group.setSelectedGroup(groupsItem)}
+                    border={groupsItem.id === group.selectedGroup.id ? 'primary' : 'light'}
                     className={"p-2 ms-1"}
                     style={{cursor:'pointer'}}
                 >
-                    {group.title}
+                    {groupsItem.title}
                 </Card>
             )}
             </Container>

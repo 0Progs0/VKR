@@ -6,6 +6,7 @@ const User = sequelize.define('user', {
     name: {type: DataTypes.STRING, unique: true},
     email: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
+    profile_img: {type: DataTypes.STRING}
 })
 
 const Material = sequelize.define('material', {

@@ -1,13 +1,15 @@
 const ApiError = require('../error/ApiError')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {User, Subject} = require('../models/models')
+const {User, Subject, Material} = require('../models/models')
+const uuid = require("uuid");
+const path = require("path");
 
 const generateJwt = (id, name, email, roleId) => {
     return jwt.sign(
         {id, name, email, roleId},
         process.env.SECRET_KEY,
-        {expiresIn: '24h'}
+        {expiresIn: '1h'}
     )
 }
 class UserController {
@@ -40,10 +42,28 @@ class UserController {
         return res.json({token})
     }
 
-    async getAll(req, res) {
+    async loadImg(req, res, next) {
+        try {
+        const {id} = req.body
+        const {profile_img} = req.files
+        let imgName = uuid.v4() + ".jpg"
+        profile_img.mv(path.resolve(__dirname, '..', 'static', imgName))
+        const user = await User.findOne({where: {id}})
+        await user.update({profile_img:imgName})
+        return res.json(user)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async getAll(req, res, next) {
+        try {
         const users = await User.findAll()
         return res.json(users)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
     }
+
 
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.name, req.user.email, req.user.roleId)
