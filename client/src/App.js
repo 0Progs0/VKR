@@ -7,7 +7,6 @@ import {useContext, useEffect, useState} from "react";
 import {check} from "./components/http/userAPI";
 import {Container, Spinner} from "react-bootstrap";
 import Footer from "./components/Footer";
-import {jwtDecode} from "jwt-decode";
 
 const App = observer(() => {
     const {user} = useContext(Context)
@@ -15,13 +14,15 @@ const App = observer(() => {
 
     useEffect(() => {
         setTimeout(() => {
+            if (user.isAuth !== false) {
                 check().then(data => {
                     user.setUser(data)
                     user.setIsAuth(true)
                 }).finally(() => setLoading(false))
+            }
+            else setLoading(false)
             }, 1000)
         }, [])
-    console.log(user)
     if (loading) {
         return <Container className={"d-flex justify-content-center"}><Spinner animation="border" variant="primary" /></Container>
     }

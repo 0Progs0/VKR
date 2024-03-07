@@ -1,5 +1,5 @@
-import React, {useContext, useEffect} from 'react';
-import {Col, Container, Row} from "react-bootstrap";
+import React, {useContext, useEffect, useState} from 'react';
+import {Button, Col, Container, Row} from "react-bootstrap";
 import SubjectBar from "../components/SubjectBar";
 import GroupBar from "../components/GroupBar";
 import CategoryBar from "../components/CategoryBar";
@@ -12,23 +12,25 @@ import {fetchUsers} from "../components/http/userAPI";
 import {fetchSubjects} from "../components/http/subjectAPI";
 import {fetchGroups} from "../components/http/groupAPI";
 import {fetchCategories} from "../components/http/categoryAPI";
+import CreateMaterial from "../components/modals/CreateMaterial";
 
 
 const Main = observer(() => {
     const {user, material, subject, group, category} = useContext(Context)
+    const [materialVisible, setMaterialVisible] = useState()
     useEffect(() => {
         fetchUsers().then(data => user.setAllUsers(data))
         fetchSubjects().then(data => subject.setSubjects(data))
         fetchCategories().then(data => category.setCategories(data))
         fetchGroups().then(data => group.setGroups(data))
-        fetchMaterials(null, null, null, 1, 2).then(data => {
+        fetchMaterials(null, null, null, null, 2, 1).then(data => {
             material.setMaterials(data.rows)
             material.setTotalCount(data.count)
         })
     }, [])
 
     useEffect(() => {
-        fetchMaterials(subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, material.currentPage, 2).then(data => {
+        fetchMaterials(null, subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, material.currentPage, 2).then(data => {
             material.setMaterials(data.rows)
             material.setTotalCount(data.count)
         })
@@ -43,8 +45,21 @@ const Main = observer(() => {
                 <Col md={9}>
                     <GroupBar/>
                     <CategoryBar/>
+                    {user.isAuth
+                        ?
+                        <Button
+                            variant={"primary"}
+                            className={"mt-2"}
+                            onClick={() => setMaterialVisible(true)}
+                        >
+                            Добавить материал
+                        </Button>
+                        :
+                        <div/>
+                    }
                     <MaterialList/>
                     <Pages/>
+                    <CreateMaterial show={materialVisible} onHide={() => setMaterialVisible(false)}/>
                 </Col>
             </Row>
         </Container>

@@ -1,12 +1,19 @@
 const uuid = require('uuid')
 const path = require('path')
-const {Material} = require('../models/models')
+const {Material, Category} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class MaterialController {
     async create(req, res, next) {
         try {
             const {title, description, date_publication, userId, categoryId, subjectId, groupId} = req.body
             const {file} = req.files
+            if (!title || !description) {
+                return next(ApiError.badRequest('Некоректное заполнение полей!'))
+            }
+            const existing = await Material.findOne({where: {title}})
+            if (existing) {
+                return next(ApiError.badRequest('Материал с таким названием уже существует'))
+            }
             let fileName = uuid.v4() + ".pdf"
             file.mv(path.resolve(__dirname, '..', 'static', fileName))
             const material = await Material.create({title, description, date_publication, userId, categoryId, subjectId, groupId, file: fileName})
@@ -90,6 +97,20 @@ class MaterialController {
             }
         )
         return res.json(material)
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async getUserMaterial(req, res, next) {
+        try {
+            const {userId} = req.body
+            const material = await Material.findAll(
+                {
+                    where: {userId}
+                }
+            )
+            return res.json(material)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

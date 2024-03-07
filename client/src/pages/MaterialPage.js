@@ -1,17 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Button, Card, Col, Container, Row} from "react-bootstrap";
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {fetchOneMaterial} from "../components/http/materialAPI";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import fileSaver from "file-saver/dist/FileSaver";
 import {fetchGroups} from "../components/http/groupAPI";
 import {fetchCategories} from "../components/http/categoryAPI";
+import {LOGIN_ROUTE} from "../utils/consts";
 
 const MaterialPage = observer(() => {
     const [currentMaterial, setCurrentMaterial] = useState({})
     const {id} = useParams()
-    const {material, group, category} = useContext(Context)
+    const {user, group, category} = useContext(Context)
+    const navigate = useNavigate()
     useEffect(() => {
             fetchOneMaterial(id).then(data => setCurrentMaterial(data))
             fetchCategories().then(data => category.setCategories(data))
@@ -37,9 +39,14 @@ const MaterialPage = observer(() => {
                     <embed src={process.env.REACT_APP_API_URL + currentMaterial.file + "#zoom=85&scrollbar=0&toolbar=0&navpanes=0"} style={{width:850, height:650}}/>
                 </Col>
                 <Col md={4}>
-                    <Card className={"d-flex flex-column"}>
+                    <Card className={"d-flex flex-column justify-content-center"}>
                         <div className={"ms-2 p-2"}>{currentMaterial.description}</div>
-                        <div className={"ms-2 p-2"}><Button variant={"primary"} onClick={downloadFile}>Скачать</Button></div>
+                        {user.isAuth
+                            ?
+                            <div className={"ms-2 p-2"}><Button variant={"primary"} onClick={downloadFile}>Скачать</Button></div>
+                            :
+                            <div className={"ms-2 p-2"}><Button variant={"primary"} onClick={() => navigate(LOGIN_ROUTE)}>Чтобы скачать авторизируйтесь</Button></div>
+                        }
                     </Card>
                 </Col>
             </Row>

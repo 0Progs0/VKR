@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {Context} from "../index";
 import {Button, Container, Nav, Navbar} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
-import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, PROFILE_ROUTE} from "../utils/consts";
+import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, USER_MATERIALS} from "../utils/consts";
 import {observer} from "mobx-react-lite";
 import {useNavigate} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
@@ -24,11 +24,13 @@ const NavBar = observer(() => {
                     ?
                     <Nav className="ml-auto" style={{color: 'white'}}>
                         <Button variant={"outline-light"} onClick={() => navigate(ADMIN_ROUTE)}>Панель администратора</Button>
+                        <Button variant={"outline-light"} className="ms-3" onClick={() => navigate(USER_MATERIALS)}>Мои материалы</Button>
                         <Button variant={"outline-light"} className="ms-3" onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Button>
                         <Button variant={"outline-light"} className="ms-3" onClick={() => logOut()}>Выйти</Button>
                     </Nav>
                     : user.isAuth
                         ? <Nav className="ml-auto" style={{color: 'white'}}>
+                            <Button variant={"outline-light"} onClick={() => navigate(USER_MATERIALS)}>Мои материалы</Button>
                             <Button variant={"outline-light"} className="ms-3" onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Button>
                             <Button variant={"outline-light"} className="ms-3" onClick={() => logOut()}>Выйти</Button>
                         </Nav>

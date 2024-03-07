@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Card, Container, Form} from "react-bootstrap";
+import {Button, Card, Container, Form, InputGroup} from "react-bootstrap";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {LOGIN_ROUTE, MAIN_ROUTE, MATERIAL_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {login, registration} from "../components/http/userAPI";
@@ -14,7 +14,6 @@ const Auth = observer(() => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
     const access = async () => {
         try {
             let data;
