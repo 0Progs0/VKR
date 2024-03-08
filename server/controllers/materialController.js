@@ -102,16 +102,31 @@ class MaterialController {
         }
     }
 
-    async getUserMaterial(req, res, next) {
+
+    async updateMaterial(req, res, next) {
         try {
-            const {userId} = req.body
-            const material = await Material.findAll(
-                {
-                    where: {userId}
-                }
-            )
+            const {id, title, description, date_publication, userId, categoryId, subjectId, groupId} = req.body
+            const {file} = req.files
+            if (!title || !description) {
+                return next(ApiError.badRequest('Некоректное заполнение полей!'))
+            }
+            let fileName = uuid.v4() + ".pdf"
+            file.mv(path.resolve(__dirname, '..', 'static', fileName))
+            const material = await Material.update({title, description, date_publication, userId, categoryId, subjectId, groupId, file: fileName}, {where: {id}})
             return res.json(material)
-        } catch (e) {
+        }
+        catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+    async deleteMaterial(req, res, next) {
+        try {
+            const {id} = req.params
+            const material = await Material.destroy({
+                where : {id}
+            })
+        }
+        catch (e) {
             next(ApiError.badRequest(e.message))
         }
     }

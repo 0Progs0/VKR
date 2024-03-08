@@ -10,7 +10,6 @@ const UserMaterialsPage = () => {
 
     useEffect(() => {
         fetchMaterials(user.user.id,null,null,null,null, null).then(data => setUsersMaterials(data.rows))
-        console.log(usersMaterials)
     },[])
     return (
         <Container>

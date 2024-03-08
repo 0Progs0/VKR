@@ -16,3 +16,12 @@ export const fetchOneMaterial = async (id) => {
     const {data} = await host.get('api/material/' + id)
     return data
 }
+
+export const updateMaterial = async (material) => {
+    const {data} = await hostAuth.put('api/material/' + material.id, material)
+    return data
+}
+export  const deleteMaterial = async (id) => {
+    const {data} = await hostAuth.delete('api/material/' + id)
+    return data
+}
