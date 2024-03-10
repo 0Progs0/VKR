@@ -30,7 +30,8 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
         formData.append('categoryId', material.categoryId || category.selectedCategory.id)
         formData.append('subjectId', material.subjectId || subject.selectedSubject.id)
         formData.append('groupId', material.groupId || group.selectedGroup.id)
-        updateMaterial(formData).then(data => onHide())
+        updateMaterial(material.id, formData).then(data => onHide())
+        console.log(formData.get('id'))
     }
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import {deleteMaterial} from "./http/materialAPI";
 const UserMaterialItem = ({user, material}) => {
     const [updateVisible, setUpdateVisible] = useState()
 
+    console.log(material)
     const removeMaterial = () => {
         deleteMaterial(material.id).then(data => console.log(data))
     }

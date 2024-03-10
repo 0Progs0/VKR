@@ -17,7 +17,6 @@ import CreateMaterial from "../components/modals/CreateMaterial";
 
 const Main = observer(() => {
     const {user, material, subject, group, category} = useContext(Context)
-    const [materialVisible, setMaterialVisible] = useState()
     useEffect(() => {
         fetchUsers().then(data => user.setAllUsers(data))
         fetchSubjects().then(data => subject.setSubjects(data))
@@ -42,24 +41,11 @@ const Main = observer(() => {
                 <Col md={3}>
                     <SubjectBar/>
                 </Col>
-                <Col md={9}>
+                <Col md={9} className={"d-flex flex-column"}>
                     <GroupBar/>
                     <CategoryBar/>
-                    {user.isAuth
-                        ?
-                        <Button
-                            variant={"primary"}
-                            className={"mt-2"}
-                            onClick={() => setMaterialVisible(true)}
-                        >
-                            Добавить материал
-                        </Button>
-                        :
-                        <div/>
-                    }
                     <MaterialList/>
                     <Pages/>
-                    <CreateMaterial show={materialVisible} onHide={() => setMaterialVisible(false)}/>
                 </Col>
             </Row>
         </Container>

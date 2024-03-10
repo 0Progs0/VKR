@@ -12,7 +12,7 @@ const Pages = observer(() => {
         pages.push(i + 1)
     }
     return (
-        <Pagination className={"mt-5"}>
+        <Pagination className={"d-flex justify-content-center mt-5"}>
             {pages.map(page =>
                 <Pagination.Item
                     key = {page}

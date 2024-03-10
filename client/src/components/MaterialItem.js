@@ -6,7 +6,7 @@ import {MATERIAL_ROUTE} from "../utils/consts";
 const MaterialItem = ({user, material}) => {
     const navigate = useNavigate()
     return (
-        <Col md={9} onClick={() => navigate(MATERIAL_ROUTE + '/' + material.id)}>
+        <Col onClick={() => navigate(MATERIAL_ROUTE + '/' + material.id)}>
             <Card className={"mt-2 mb-2 p-1"} style={{cursor:'pointer'}} border={"primary"}>
                 <div className={"p-1"}>
                 <div className={"d-flex justify-content-between"}>

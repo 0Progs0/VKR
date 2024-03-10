@@ -9,7 +9,7 @@ const ProfilePage = () => {
     return (
         <Container>
             <Row className={"d-flex mt-3"}>
-                <Col md={2}>
+                <Col md={2} className={"d-flex flex-column"}>
                     {user.allUsers[user.user.id - 1].profile_img ?
                         <Image src={process.env.REACT_APP_API_URL + user.allUsers[user.user.id - 1].profile_img} thumbnail/>
                     :
@@ -23,7 +23,7 @@ const ProfilePage = () => {
                     </Button>
                 </Col>
                 <Col md={10}>
-                    <Card className={"d-flex p-1"}>
+                    <Card className={"d-flex p-2"}>
                         <div>Имя: {user.user.name}</div>
                         <div>Адрес электроннной почты: {user.user.email}</div>
                     </Card>
