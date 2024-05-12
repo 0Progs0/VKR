@@ -1,6 +1,7 @@
 import Admin from "./pages/Admin";
 import {
     ADMIN_ROUTE,
+    FAVORITES,
     LOGIN_ROUTE,
     MAIN_ROUTE,
     MATERIAL_ROUTE,
@@ -13,6 +14,8 @@ import Main from "./pages/Main";
 import MaterialPage from "./pages/MaterialPage";
 import ProfilePage from "./pages/ProfilePage";
 import UserMaterialsPage from "./pages/UserMaterialsPage";
+import { Component } from 'react'
+import FavoritesPage from './pages/FavoritesPage'
 
 export const authRoutes = [
     {
@@ -45,5 +48,9 @@ export const publicRoutes = [
     {
         path: USER_MATERIALS,
         Component: UserMaterialsPage
+    },
+    {
+        path: FAVORITES,
+        Component: FavoritesPage
     }
 ]

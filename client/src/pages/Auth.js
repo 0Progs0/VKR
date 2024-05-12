@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Card, Container, Form, InputGroup} from "react-bootstrap";
+import {Button, Card, Container, Form, FormGroup, InputGroup} from "react-bootstrap";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {LOGIN_ROUTE, MAIN_ROUTE, MATERIAL_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {login, registration} from "../components/http/userAPI";
@@ -14,6 +14,10 @@ const Auth = observer(() => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const nameError = name === ''
+    const emailError = email === ''
+    const passwordError = password === ''
     const access = async () => {
         try {
             let data;
@@ -43,14 +47,41 @@ const Auth = observer(() => {
                 <h2 className={"m-auto"}>{isLogin ? 'Авторизация' : 'Регистрация'}</h2>
                 {isLogin ?
                     <Form className={"d-flex flex-column"}>
-                        <Form.Control className={"mt-4"} placeholder="Введите email"  value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <Form.Control className={"mt-2"} placeholder="Введите пароль" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <FormGroup>
+                            <Form.Control className={"mt-4"} placeholder="Введите email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required isInvalid={emailError ||
+                                !/^\S+@\S+\.\S+$/.test(email)}/>
+                            <Form.Control.Feedback type="invalid">
+                                Введен некорректный email!
+                            </Form.Control.Feedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Form.Control className={"mt-2"} placeholder="Введите пароль" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required isInvalid={passwordError}/>
+                            <Form.Control.Feedback type="invalid">
+                                Некорректное заполнение поля!
+                            </Form.Control.Feedback>
+                        </FormGroup>
                     </Form>
                     :
                     <Form className={"d-flex flex-column"}>
-                        <Form.Control className={"mt-4"} placeholder="Введите имя"  value={name} onChange={(e) => setName(e.target.value)}/>
-                        <Form.Control className={"mt-2"} placeholder="Введите email"  value={email} onChange={(e) => setEmail(e.target.value)}/>
-                        <Form.Control className={"mt-2"} placeholder="Введите пароль" type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <FormGroup>
+                            <Form.Control className={"mt-4"} placeholder="Введите имя"  value={name} onChange={(e) => setName(e.target.value)} required isInvalid={nameError}/>
+                            <Form.Control.Feedback type="invalid">
+                                Некорректное заполнение поля!
+                            </Form.Control.Feedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Form.Control className={"mt-2"} placeholder="Введите email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required isInvalid={emailError ||
+                                !/^\S+@\S+\.\S+$/.test(email)}/>
+                            <Form.Control.Feedback type="invalid">
+                                Введен некорректный email!
+                            </Form.Control.Feedback>
+                        </FormGroup>
+                        <FormGroup>
+                            <Form.Control className={"mt-2"} placeholder="Введите пароль" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required isInvalid={passwordError}/>
+                            <Form.Control.Feedback type="invalid">
+                                Некорректное заполнение поля!
+                            </Form.Control.Feedback>
+                        </FormGroup>
                     </Form>
                 }
 

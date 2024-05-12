@@ -63,7 +63,7 @@ class UserController {
             next(ApiError.badRequest(e.message))
         }
     }
-
+    
 
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.name, req.user.email, req.user.roleId)

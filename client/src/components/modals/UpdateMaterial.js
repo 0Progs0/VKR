@@ -11,7 +11,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
     const {user, subject, group, category} = useContext(Context)
     const [title,setTitle] = useState(material.title)
     const [description,setDescription] = useState(material.description)
-    const [file,setFile] = useState()
+    const [file,setFile] = useState(process.env.REACT_APP_API_URL + material.file)
     const [currentCategory, setCurrentCategory] = useState(material.categoryId)
     const [currentGroup, setCurrentGroup] = useState(material.groupId)
     const [currentSubject, setCurrentSubject] = useState(material.subjectId)
@@ -31,7 +31,6 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
         formData.append('subjectId', material.subjectId || subject.selectedSubject.id)
         formData.append('groupId', material.groupId || group.selectedGroup.id)
         updateMaterial(material.id, formData).then(data => onHide())
-        console.log(formData.get('id'))
     }
 
     useEffect(() => {
@@ -55,7 +54,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
             <Modal.Body>
                 <Form>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{subject.selectedSubject.title || subject.subjects[currentSubject-1].title}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{subject.selectedSubject.title || subject.subjects[currentSubject-1]?.title}</Dropdown.Toggle>
                         <Dropdown.Menu>
                             {subject.subjects.map(subjectItem =>
                                 <Dropdown.Item onClick={() => subject.setSelectedSubject(subjectItem)} key={subjectItem.id}>{subjectItem.title}</Dropdown.Item>
@@ -63,7 +62,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{category.selectedCategory.title || category.categories[currentCategory-1].title}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{category.selectedCategory.title || category.categories[currentCategory-1]?.title}</Dropdown.Toggle>
                         <Dropdown.Menu>
                             {category.categories.map(categoryItem =>
                                 <Dropdown.Item onClick={() => category.setSelectedCategory(categoryItem)} key={categoryItem.id}>{categoryItem.title}</Dropdown.Item>
@@ -71,7 +70,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
                         </Dropdown.Menu>
                     </Dropdown>
                     <Dropdown className={"mt-2 mb-2"}>
-                        <Dropdown.Toggle>{group.selectedGroup.title || group.groups[currentGroup-1].title}</Dropdown.Toggle>
+                        <Dropdown.Toggle>{group.selectedGroup.title || group.groups[currentGroup-1]?.title}</Dropdown.Toggle>
                         <Dropdown.Menu>
                             {group.groups.map(groupItem =>
                                 <Dropdown.Item onClick={() => group.setSelectedGroup(groupItem)} key={groupItem.id}>{groupItem.title}</Dropdown.Item>

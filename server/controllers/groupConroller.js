@@ -1,11 +1,11 @@
-const {Group, Category} = require('../models/models')
+const {Group} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class GroupController {
     async create(req, res, next) {
         try {
             const {title} = req.body
             if (!title) {
-                return next(ApiError.badRequest('Некоректное заполнение полей!'))
+                return next(ApiError.badRequest('Некорректное заполнение полей!'))
             }
             const existing = await Group.findOne({where: {title}})
             if (existing) {

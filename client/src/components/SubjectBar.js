@@ -7,7 +7,7 @@ const SubjectBar = observer(() => {
     const {subject} = useContext(Context)
     const [mark, setMark] = useState(false)
     return (
-        <ListGroup className={"list-group-bg:"}>
+        <ListGroup>
             {subject.subjects.map(subjectItem =>
             <ListGroup.Item
                 key={subjectItem.id}

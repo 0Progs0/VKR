@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Dropdown, Form, Modal} from "react-bootstrap";
+import {Button, Dropdown, Form, Modal, Row, Col} from "react-bootstrap";
 import {Context} from "../../index";
 import {createMaterial} from "../http/materialAPI";
 import {fetchSubjects} from "../http/subjectAPI";
@@ -9,9 +9,10 @@ import {observer} from "mobx-react-lite";
 
 const CreateMaterial = observer(({show, onHide}) => {
     const {user, material, subject, group, category} = useContext(Context)
-    const [title,setTitle] = useState('')
-    const [description,setDescription] = useState('')
-    const [file,setFile] = useState(null)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [file, setFile] = useState(null)
+    const [tags, setTags] = useState([])
 
 
     useEffect(() => {
@@ -24,12 +25,25 @@ const CreateMaterial = observer(({show, onHide}) => {
         setFile(e.target.files[0])
     }
 
+    const addTag = () => {
+        setTags([...tags, {title: '', number: tags.length + 1}])
+    }
+
+    const removeTag = number => {
+        setTags(tags.filter(tag => tag.number !== number))
+    }
+
+    const changeTag = (value, number) => {
+        setTags(tags.map(i => i.number === number ? {...i, title: value} : i))
+    }
+
     const addMaterial = () => {
         const formData = new FormData()
         formData.append('title', title)
         formData.append('description', description)
         formData.append('date_publication', new Date())
         formData.append('file', file)
+        formData.append('tags', JSON.stringify(tags))
         formData.append('userId', user.user.id)
         formData.append('categoryId', category.selectedCategory.id)
         formData.append('subjectId', subject.selectedSubject.id)
@@ -97,8 +111,21 @@ const CreateMaterial = observer(({show, onHide}) => {
                         type="file"
                         onChange={selectFile}
                     >
-
                     </Form.Control>
+                    <hr/>
+                    <Button variant={"outline-dark"} onClick={addTag}>Добавить тег</Button>
+                    {tags.map(i => 
+                        <Row className={"mt-2"} key={i.number}>
+                            <Col md={4}>
+                                <Form.Control 
+                                value={i.title}
+                                onChange={e => changeTag(e.target.value, i.number)}
+                                placeholder={"Введите тег"}/>
+                            </Col>
+                            <Col md={2}>
+                                <Button variant={"outline-danger"} onClick={() => removeTag(i.number)}>Удалить</Button>
+                            </Col>
+                        </Row>)}
                 </Form>
             </Modal.Body>
             <Modal.Footer>

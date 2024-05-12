@@ -8,11 +8,11 @@ const Pages = observer(() => {
     const pageCount = Math.floor(material.totalCount / material.limit)
     const pages = []
 
-    for (let i = 0; i <= pageCount; i++) {
+    for (let i = 0; i < pageCount; i++) {
         pages.push(i + 1)
     }
     return (
-        <Pagination className={"d-flex justify-content-center mt-5"}>
+        <Pagination className={"d-flex justify-content-center mt-4"}>
             {pages.map(page =>
                 <Pagination.Item
                     key = {page}

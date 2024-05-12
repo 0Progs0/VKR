@@ -9,7 +9,7 @@ const CategoryBar = observer(() => {
     
     return (
         <Container>
-            <div style={{color:'gray'}} className={"p-2 ms-2"}>Выберите вид материалов:</div>
+            <div style={{color:'gray'}} className={"p-2 me-2"}>Выберите вид материалов:</div>
             <Container className={"d-flex"}>
                 {category.categories.map(categoryItem =>
                     <Card
@@ -25,7 +25,7 @@ const CategoryBar = observer(() => {
                             }
                         }}
                         border={categoryItem.id === category.selectedCategory.id ? 'primary' : 'light'}
-                        className={"p-2 ms-1"}
+                        className={"p-2 me-1"}
                         style={{cursor:'pointer'}}
                     >
                         {categoryItem.title}

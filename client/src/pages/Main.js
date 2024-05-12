@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Button, Col, Container, Row} from "react-bootstrap";
+import React, {useContext, useEffect} from 'react';
+import {Col, Container, Row} from "react-bootstrap";
 import SubjectBar from "../components/SubjectBar";
 import GroupBar from "../components/GroupBar";
 import CategoryBar from "../components/CategoryBar";
@@ -12,7 +12,6 @@ import {fetchUsers} from "../components/http/userAPI";
 import {fetchSubjects} from "../components/http/subjectAPI";
 import {fetchGroups} from "../components/http/groupAPI";
 import {fetchCategories} from "../components/http/categoryAPI";
-import CreateMaterial from "../components/modals/CreateMaterial";
 
 
 const Main = observer(() => {
@@ -26,14 +25,17 @@ const Main = observer(() => {
             material.setMaterials(data.rows)
             material.setTotalCount(data.count)
         })
-    }, [])
+        subject.setSelectedSubject({})
+        category.setSelectedCategory({})
+        group.setSelectedGroup({})
+    }, [user, subject, group, category, material])
 
     useEffect(() => {
-        fetchMaterials(null, subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, material.currentPage, 2).then(data => {
+        fetchMaterials(null, subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, material.currentPage, 4).then(data => {
             material.setMaterials(data.rows)
             material.setTotalCount(data.count)
         })
-    }, [subject.selectedSubject, group.selectedGroup, category.selectedCategory, material.currentPage])
+    }, [material,subject.selectedSubject, group.selectedGroup, category.selectedCategory, material.currentPage])
 
     return (
         <Container>
