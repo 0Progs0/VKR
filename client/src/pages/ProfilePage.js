@@ -10,7 +10,7 @@ const ProfilePage = () => {
         <Container>
             <Row className={"d-flex mt-3"}>
                 <Col md={2} className={"d-flex flex-column"}>
-                    {user.allUsers[user.user.id - 1].profile_img ?
+                    {user?.allUsers[user.user.id - 1].profile_img ?
                         <Image src={process.env.REACT_APP_API_URL + user.allUsers[user.user.id - 1].profile_img} thumbnail/>
                     :
                         <Image src="https://mpng.hippopng.com/20190221/gw/kisspng-computer-icons-user-profile-clip-art-portable-netw-c-svg-png-icon-free-download-389-86-onlineweb-5c6f7efd8fecb7.6156919015508108775895.jpg" thumbnail/>

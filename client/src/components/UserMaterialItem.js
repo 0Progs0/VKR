@@ -2,14 +2,11 @@ import React, {useState} from 'react';
 import {Button, Card, Col} from "react-bootstrap";
 import UpdateMaterial from "./modals/UpdateMaterial";
 import {deleteMaterial} from "./http/materialAPI";
+import {observer} from "mobx-react-lite";
 
-const UserMaterialItem = ({user, material}) => {
+const UserMaterialItem = observer(({user, material,materialUpdate ,removeMaterial}) => {
     const [updateVisible, setUpdateVisible] = useState()
 
-    console.log(material)
-    const removeMaterial = () => {
-        deleteMaterial(material.id).then(data => console.log(data))
-    }
     return (
         <Col md={9}>
             <Card className={"mt-2 mb-2 p-1"} style={{cursor:'pointer'}} border={"primary"}>
@@ -20,18 +17,18 @@ const UserMaterialItem = ({user, material}) => {
                     </div>
                     <div className={"d-flex justify-content-between"}>
                         <div>
-                            {<div>Автор: {user.allUsers[material.userId - 1]?.name}</div>}
+                            <div>Автор: {user.allUsers[material.userId - 1]?.name}</div>
                             <div>Описание: {material?.description}</div>
                         </div>
                         <div>
                             <Button className={"me-2"} variant={"success"} onClick={() => setUpdateVisible(true)}>Редактировать</Button>
-                            <Button variant={"danger"} onClick={removeMaterial}>Удалить</Button>
+                            <Button variant={"danger"} onClick={() => removeMaterial(material)}>Удалить</Button>
                         </div>
                     </div>
                 </div>
             </Card>
-            <UpdateMaterial material={material} show={updateVisible} onHide={() => setUpdateVisible(false)}/>
+            <UpdateMaterial material={material} show={updateVisible} onHide={() => setUpdateVisible(false)} onUpdate={materialUpdate}/>
         </Col>
     );
-};
+});
 export default UserMaterialItem;

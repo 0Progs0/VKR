@@ -2,6 +2,7 @@ const uuid = require('uuid')
 const path = require('path')
 const {Material, Tag} = require('../models/models')
 const ApiError = require('../error/ApiError')
+const {Sequelize} = require("sequelize");
 class MaterialController {
     async create(req, res, next) {
         try {
@@ -33,7 +34,7 @@ class MaterialController {
     }
     async getAll(req, res, next) {
         try {
-            let {userId, subjectId, groupId, categoryId, limit, page} = req.query
+            let {userId, subjectId, groupId, categoryId, title, limit, page} = req.query
             page = page || 1
             limit = limit || 9
             let offset = page * limit - limit
@@ -42,8 +43,14 @@ class MaterialController {
             if (subjectId) where.subjectId = subjectId
             if (groupId) where.groupId = groupId
             if (categoryId) where.categoryId = categoryId
-
-            const materials = await Material.findAndCountAll({where, limit, offset})
+            let likes = []
+            if (title) {
+                likes.push(Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('title')), 'LIKE', '%' + title.toLowerCase() + '%'))
+            }
+            if (likes.length > 0) {
+                where[Sequelize.Op.and] = likes
+            }
+            const materials = await Material.findAndCountAll({where, limit, offset, likes})
             return res.json(materials)
         } catch (e) {
             next(ApiError.badRequest(e.message))

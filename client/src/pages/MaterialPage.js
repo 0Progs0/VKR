@@ -20,8 +20,8 @@ const MaterialPage = observer(() => {
     useEffect(() => {
             fetchCategories().then(data => category.setCategories(data))
             fetchGroups().then(data => group.setGroups(data))
-            fetchOneMaterial(id).then(data => setCurrentMaterial(data))
             fetchFavorites(user.user.id).then(data => setFavorites(data))
+            fetchOneMaterial(id).then(data => setCurrentMaterial(data))
             console.log(favorites)
             }
     ,[])
@@ -59,7 +59,7 @@ const MaterialPage = observer(() => {
                             ?
                             <div className={"mt-2 mb-2 d-flex justify-content-between"}>
                                 <Button onClick={downloadFile}>Скачать</Button>
-                                <Button className='' onClick={toggle}>{favorites.some(favorite => favorite.materialId === currentMaterial.id) ? <AiFillHeart size={30}/> : <AiOutlineHeart size={30}/>}</Button>
+                                <Button className='' onClick={toggle}>{favorites?.some(favorite => favorite.materialId === currentMaterial.id) ? <AiFillHeart size={30}/> : <AiOutlineHeart size={30}/>}</Button>
                             </div>
 
                             :

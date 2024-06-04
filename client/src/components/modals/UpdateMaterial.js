@@ -7,7 +7,7 @@ import {Button, Dropdown, Form, Modal} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {updateMaterial} from "../http/materialAPI";
 
-const UpdateMaterial = observer(({material, show, onHide}) => {
+const UpdateMaterial = observer(({material, show, onHide, onUpdate}) => {
     const {user, subject, group, category} = useContext(Context)
     const [title,setTitle] = useState(material.title)
     const [description,setDescription] = useState(material.description)
@@ -19,7 +19,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
         setFile(e.target.files[0])
     }
 
-    const updateExistMaterial = () => {
+    const updateExistMaterial = async () => {
         const formData = new FormData()
         formData.append('id', material.id)
         formData.append('title', title)
@@ -30,7 +30,9 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
         formData.append('categoryId', material.categoryId || category.selectedCategory.id)
         formData.append('subjectId', material.subjectId || subject.selectedSubject.id)
         formData.append('groupId', material.groupId || group.selectedGroup.id)
-        updateMaterial(material.id, formData).then(data => onHide())
+        onUpdate({id: material.id, title, description, file, categoryId: material.categoryId, subjectId: material.subjectId, groupId: material.groupId})
+        await updateMaterial(material.id, formData).then(data => onHide())
+
     }
 
     useEffect(() => {
@@ -104,7 +106,7 @@ const UpdateMaterial = observer(({material, show, onHide}) => {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"success"} onClick={updateExistMaterial}>Добавить</Button>
+                <Button variant={"success"} onClick={() => updateExistMaterial()}>Добавить</Button>
                 <Button variant={"danger"} onClick={onHide}>Закрыть</Button>
             </Modal.Footer>
         </Modal>

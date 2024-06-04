@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Col, Container, Row} from "react-bootstrap";
 import SubjectBar from "../components/SubjectBar";
 import GroupBar from "../components/GroupBar";
@@ -12,30 +12,34 @@ import {fetchUsers} from "../components/http/userAPI";
 import {fetchSubjects} from "../components/http/subjectAPI";
 import {fetchGroups} from "../components/http/groupAPI";
 import {fetchCategories} from "../components/http/categoryAPI";
+import Search from "../components/Search";
 
 
 const Main = observer(() => {
     const {user, material, subject, group, category} = useContext(Context)
+    const [title, setTitle] = useState('')
+
+    const handleTitleChange = (title) => {
+        setTitle(title)
+    }
+
     useEffect(() => {
         fetchUsers().then(data => user.setAllUsers(data))
         fetchSubjects().then(data => subject.setSubjects(data))
         fetchCategories().then(data => category.setCategories(data))
         fetchGroups().then(data => group.setGroups(data))
-        fetchMaterials(null, null, null, null, 2, 1).then(data => {
-            material.setMaterials(data.rows)
-            material.setTotalCount(data.count)
-        })
         subject.setSelectedSubject({})
         category.setSelectedCategory({})
         group.setSelectedGroup({})
     }, [user, subject, group, category, material])
 
     useEffect(() => {
-        fetchMaterials(null, subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, material.currentPage, 4).then(data => {
+        fetchMaterials(null, subject.selectedSubject.id, group.selectedGroup.id, category.selectedCategory.id, title, material.currentPage, 4).then(data => {
             material.setMaterials(data.rows)
             material.setTotalCount(data.count)
         })
-    }, [material,subject.selectedSubject, group.selectedGroup, category.selectedCategory, material.currentPage])
+    }, [material, title,subject.selectedSubject, group.selectedGroup, category.selectedCategory, material.currentPage, material.totalCount])
+
 
     return (
         <Container>
@@ -46,6 +50,7 @@ const Main = observer(() => {
                 <Col md={9} className={"d-flex flex-column"}>
                     <GroupBar/>
                     <CategoryBar/>
+                    <Search onChange={handleTitleChange}/>
                     <MaterialList/>
                     <Pages/>
                 </Col>

@@ -19,6 +19,9 @@ class FavoritesController {
 
     async getFavorites(req, res) {
         const {id} = req.query
+        if (!id) {
+            return res.json([])
+        }
         const favorites = await MaterialFavorite.findAll({where: {userId: id}})
         if (!favorites) {
             return res.json([])

@@ -8,8 +8,6 @@ import CreateMaterial from "./modals/CreateMaterial";
 const MaterialList = observer(() => {
     const {user, material} = useContext(Context)
     const [materialVisible, setMaterialVisible] = useState(false)
-    const [value, setValue] = useState('')
-    const filteredMaterials = material.materials.filter(material => material.title.toLowerCase().includes(value.toLowerCase()))
     return (
         <Container>
             <Row className={"d-inline-flex ms-auto"}>
@@ -32,21 +30,8 @@ const MaterialList = observer(() => {
                     </Button>
                 }
             </Row>
-            <Row>
-                <Form className={"mb-2"}>
-                    <Form.Group >
-                        <Form.Control
-                            className={"mt-3"}
-                            placeholder={"Введите название"}
-                            value={value}
-                            onChange={e => setValue(e.target.value)}
-                        >
-                        </Form.Control>
-                    </Form.Group>
-                </Form>
-            </Row>
             <Row className={"d-flex flex-column"}>
-                {filteredMaterials.map(material =>
+                {material.materials.map(material =>
                     <MaterialItem key={material.id} user={user} material={material}/>
                 )}
             </Row>

@@ -49,6 +49,9 @@ const CreateMaterial = observer(({show, onHide}) => {
         formData.append('subjectId', subject.selectedSubject.id)
         formData.append('groupId', group.selectedGroup.id)
         createMaterial(formData).then(data => onHide())
+        subject.setSelectedSubject({})
+        category.setSelectedCategory({})
+        group.setSelectedGroup({})
     }
 
     return (

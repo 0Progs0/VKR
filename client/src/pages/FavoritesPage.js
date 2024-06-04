@@ -9,7 +9,7 @@ const FavoritesPage = () => {
 
     useEffect(() => {
         fetchFavorites(user.user.id).then(data => user.setFavorites(data))
-    },[])
+    },[user.favorites])
 
     return (
         <Container>
