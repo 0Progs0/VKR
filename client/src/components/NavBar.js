@@ -1,37 +1,40 @@
-import React, {useContext} from 'react';
-import {Context} from "../index";
-import {Button, Container, Nav, Navbar} from "react-bootstrap";
-import {NavLink} from "react-router-dom";
-import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, PROFILE_ROUTE} from "../utils/consts";
-import {observer} from "mobx-react-lite";
-import {useNavigate} from "react-router-dom";
-import {jwtDecode} from "jwt-decode";
+import React, { useContext } from 'react'
+import { Context } from "../index"
+import { Button, Container, Nav, Dropdown, Navbar, DropdownButton } from "react-bootstrap"
+import { NavLink } from "react-router-dom"
+import { ADMIN_ROUTE, FAVORITES, LOGIN_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, USER_MATERIALS } from "../utils/consts"
+import { observer } from "mobx-react-lite"
+import { useNavigate } from "react-router-dom"
 
 const NavBar = observer(() => {
     const {user} = useContext(Context)
     const navigate = useNavigate()
-    const currentUser = jwtDecode(localStorage.getItem('token'))
     const logOut = () => {
         user.setUser(false)
         user.setIsAuth(false)
     }
 
     return (
-        <Navbar bg="primary" data-bs-theme="dark">
+        <Navbar bg="primary" data-bs-theme="light">
             <Container>
                 <NavLink style={{color: 'white', textDecoration:"none"}} to={MAIN_ROUTE}>SimpleEd</NavLink>
-                {user.isAuth && currentUser.roleId === 1
+                {user.isAuth && user.user.roleId === 1
                     ?
-                    <Nav className="ml-auto" style={{color: 'white'}}>
-                        <Button variant={"outline-light"} onClick={() => navigate(ADMIN_ROUTE)}>Панель администратора</Button>
-                        <Button variant={"outline-light"} className="ms-3" onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Button>
-                        <Button variant={"outline-light"} className="ms-3" onClick={() => logOut()}>Выйти</Button>
-                    </Nav>
+                    <DropdownButton className="ml-auto" variant='outline-light' title="Меню">
+                        
+                        <Dropdown.Item variant={"outline-light"} onClick={() => navigate(ADMIN_ROUTE)}>Панель администратора</Dropdown.Item>
+                        <Dropdown.Item variant={"outline-light"} onClick={() => navigate(USER_MATERIALS)}>Мои материалы</Dropdown.Item>
+                        <Dropdown.Item variant={"outline-light"} onClick={() => navigate(FAVORITES)}>Избранное</Dropdown.Item>
+                        <Dropdown.Item variant={"outline-light"} onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Dropdown.Item>
+                        <Dropdown.Item variant={"outline-light"} onClick={() => logOut()}>Выйти</Dropdown.Item>
+                    </DropdownButton>
                     : user.isAuth
-                        ? <Nav className="ml-auto" style={{color: 'white'}}>
-                            <Button variant={"outline-light"} className="ms-3" onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Button>
-                            <Button variant={"outline-light"} className="ms-3" onClick={() => logOut()}>Выйти</Button>
-                        </Nav>
+                        ? <DropdownButton className="ml-auto" style={{color: 'white'}} variant='outline-light'>
+                            <Dropdown.Item variant={"outline-light"} onClick={() => navigate(USER_MATERIALS)}>Мои материалы</Dropdown.Item>
+                            <Dropdown.Item variant={"outline-light"} onClick={() => navigate(FAVORITES)}>Избранное</Dropdown.Item>
+                            <Dropdown.Item variant={"outline-light"} onClick={() => navigate(PROFILE_ROUTE)}>Профиль</Dropdown.Item>
+                            <Dropdown.Item variant={"outline-light"} onClick={() => logOut()}>Выйти</Dropdown.Item>
+                        </DropdownButton>
                         :
                         <Nav className="ml-auto" style={{color: 'white'}}>
                             <Button variant={"outline-light"} onClick={() => navigate(LOGIN_ROUTE)}>Войти</Button>

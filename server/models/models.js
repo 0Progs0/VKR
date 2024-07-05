@@ -6,8 +6,9 @@ const User = sequelize.define('user', {
     name: {type: DataTypes.STRING, unique: true},
     email: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
-    profile_img: {type: DataTypes.STRING}
+    profile_img: {type: DataTypes.STRING},
 })
+
 
 const Material = sequelize.define('material', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -18,6 +19,15 @@ const Material = sequelize.define('material', {
 }, {
     createdAt:false,
     updatedAt:false
+})
+
+const Tag = sequelize.define('tag', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING, unique: true, allowNull: false},
+})
+
+const MaterialFavorite = sequelize.define('material_favorite', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 })
 
 const Category = sequelize.define('category', {
@@ -44,6 +54,15 @@ const Role = sequelize.define('role', {
 User.hasMany(Material)
 Material.belongsTo(User)
 
+Material.hasOne(MaterialFavorite)
+MaterialFavorite.belongsTo(Material)
+
+Material.hasMany(Tag, {as: 'tags'})
+Tag.belongsTo(Material)
+
+User.hasMany(MaterialFavorite)
+MaterialFavorite.belongsTo(User)
+
 Category.hasMany(Material)
 Material.belongsTo(Category)
 
@@ -59,6 +78,8 @@ User.belongsTo(Role)
 module.exports = {
     User,
     Material,
+    Tag,
+    MaterialFavorite,
     Category,
     Subject,
     Group,

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Button, Dropdown, Form, Modal} from "react-bootstrap";
+import {Button, Dropdown, Form, Modal, Row, Col, FormGroup} from "react-bootstrap";
 import {Context} from "../../index";
 import {createMaterial} from "../http/materialAPI";
 import {fetchSubjects} from "../http/subjectAPI";
@@ -9,9 +9,15 @@ import {observer} from "mobx-react-lite";
 
 const CreateMaterial = observer(({show, onHide}) => {
     const {user, material, subject, group, category} = useContext(Context)
-    const [title,setTitle] = useState('')
-    const [description,setDescription] = useState('')
-    const [file,setFile] = useState(null)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [file, setFile] = useState(null)
+    const [tags, setTags] = useState([])
+
+    const titleError = title === ''
+    const descriptionError = description === ''
+    const fileError = file === null
+
 
 
     useEffect(() => {
@@ -24,17 +30,33 @@ const CreateMaterial = observer(({show, onHide}) => {
         setFile(e.target.files[0])
     }
 
+    const addTag = () => {
+        setTags([...tags, {title: '', number: tags.length + 1}])
+    }
+
+    const removeTag = number => {
+        setTags(tags.filter(tag => tag.number !== number))
+    }
+
+    const changeTag = (value, number) => {
+        setTags(tags.map(i => i.number === number ? {...i, title: value} : i))
+    }
+
     const addMaterial = () => {
         const formData = new FormData()
         formData.append('title', title)
         formData.append('description', description)
         formData.append('date_publication', new Date())
         formData.append('file', file)
+        formData.append('tags', JSON.stringify(tags))
         formData.append('userId', user.user.id)
         formData.append('categoryId', category.selectedCategory.id)
         formData.append('subjectId', subject.selectedSubject.id)
         formData.append('groupId', group.selectedGroup.id)
         createMaterial(formData).then(data => onHide())
+        subject.setSelectedSubject({})
+        category.setSelectedCategory({})
+        group.setSelectedGroup({})
     }
 
     return (
@@ -46,7 +68,7 @@ const CreateMaterial = observer(({show, onHide}) => {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить предмет
+                    Добавить материал
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -75,30 +97,56 @@ const CreateMaterial = observer(({show, onHide}) => {
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Введите название"}
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    >
-
-                    </Form.Control>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Введите описание"}
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    >
-
-                    </Form.Control>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Выберите файл"}
-                        type="file"
-                        onChange={selectFile}
-                    >
-
-                    </Form.Control>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Введите название"}
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            required isInvalid={titleError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Некорректное название!
+                        </Form.Control.Feedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Введите описание"}
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            required isInvalid={descriptionError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Некорректное описание!
+                        </Form.Control.Feedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Выберите файл"}
+                            type="file"
+                            onChange={selectFile}
+                            required isInvalid={fileError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Файл не выбран!
+                        </Form.Control.Feedback>
+                    </FormGroup>
+                    <hr/>
+                    <Button variant={"outline-dark"} onClick={addTag}>Добавить тег</Button>
+                    {tags.map(i => 
+                        <Row className={"mt-2"} key={i.number}>
+                            <Col md={4}>
+                                <Form.Control 
+                                value={i.title}
+                                onChange={e => changeTag(e.target.value, i.number)}
+                                placeholder={"Введите тег"}/>
+                            </Col>
+                            <Col md={2}>
+                                <Button variant={"outline-danger"} onClick={() => removeTag(i.number)}>Удалить</Button>
+                            </Col>
+                        </Row>)}
                 </Form>
             </Modal.Body>
             <Modal.Footer>

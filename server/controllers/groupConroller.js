@@ -3,9 +3,16 @@ const ApiError = require('../error/ApiError')
 class GroupController {
     async create(req, res, next) {
         try {
-        const {title} = req.body
-        const group = await Group.create({title})
-        return res.json(group)
+            const {title} = req.body
+            if (!title) {
+                return next(ApiError.badRequest('Некорректное заполнение полей!'))
+            }
+            const existing = await Group.findOne({where: {title}})
+            if (existing) {
+                return next(ApiError.badRequest('Группа с таким названием уже существует'))
+            }
+            const group = await Group.create({title})
+            return res.json(group)
         } catch (e) {
             next(ApiError.badRequest(e.message))
         }

@@ -18,7 +18,6 @@ root.render(
           group: new GroupStore(),
           category: new CategoryStore()
       }}>
-
           <App/>
       </Context.Provider>
 );

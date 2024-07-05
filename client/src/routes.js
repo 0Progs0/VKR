@@ -1,9 +1,21 @@
 import Admin from "./pages/Admin";
-import {ADMIN_ROUTE, LOGIN_ROUTE, MAIN_ROUTE, MATERIAL_ROUTE, PROFILE_ROUTE, REGISTRATION_ROUTE} from "./utils/consts";
+import {
+    ADMIN_ROUTE,
+    FAVORITES,
+    LOGIN_ROUTE,
+    MAIN_ROUTE,
+    MATERIAL_ROUTE,
+    PROFILE_ROUTE,
+    REGISTRATION_ROUTE,
+    USER_MATERIALS
+} from "./utils/consts";
 import Auth from "./pages/Auth";
 import Main from "./pages/Main";
 import MaterialPage from "./pages/MaterialPage";
 import ProfilePage from "./pages/ProfilePage";
+import UserMaterialsPage from "./pages/UserMaterialsPage";
+import { Component } from 'react'
+import FavoritesPage from './pages/FavoritesPage'
 
 export const authRoutes = [
     {
@@ -32,5 +44,13 @@ export const publicRoutes = [
     {
         path: PROFILE_ROUTE,
         Component: ProfilePage
+    },
+    {
+        path: USER_MATERIALS,
+        Component: UserMaterialsPage
+    },
+    {
+        path: FAVORITES,
+        Component: FavoritesPage
     }
 ]

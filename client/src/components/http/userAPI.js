@@ -27,3 +27,14 @@ export const check = async () => {
     localStorage.setItem('token', data.token)
     return jwtDecode(data.token)
 }
+
+export const fetchFavorites = async (id) => {
+    const {data} = await hostAuth.get('api/favorites', {params: {id}})
+    return data
+}
+
+export const toggleFavorite = async (userId, materialId) => {
+    const {data} = await hostAuth.patch('api/favorites', {userId, materialId})
+    return data
+}
+
