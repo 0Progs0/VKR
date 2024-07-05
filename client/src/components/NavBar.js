@@ -13,7 +13,6 @@ const NavBar = observer(() => {
         user.setUser(false)
         user.setIsAuth(false)
     }
-    console.log(user.user)
 
     return (
         <Navbar bg="primary" data-bs-theme="light">

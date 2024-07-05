@@ -4,10 +4,13 @@ import {Button, Container, Form, Row} from "react-bootstrap";
 import {Context} from "../index";
 import MaterialItem from "./MaterialItem";
 import CreateMaterial from "./modals/CreateMaterial";
+import {LOGIN_ROUTE} from "../utils/consts";
+import {useNavigate} from "react-router-dom";
 
 const MaterialList = observer(() => {
     const {user, material} = useContext(Context)
     const [materialVisible, setMaterialVisible] = useState(false)
+    const navigate = useNavigate()
     return (
         <Container>
             <Row className={"d-inline-flex ms-auto"}>
@@ -24,7 +27,7 @@ const MaterialList = observer(() => {
                     <Button
                         variant={"primary"}
                         className={"mt-3 mb-1"}
-                        onClick={() => setMaterialVisible(true)}
+                        onClick={() => navigate(LOGIN_ROUTE)}
                     >
                         Авторизуйтесь чтобы добавить материал
                     </Button>

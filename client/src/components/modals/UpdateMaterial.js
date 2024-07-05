@@ -3,7 +3,7 @@ import {Context} from "../../index";
 import {fetchSubjects} from "../http/subjectAPI";
 import {fetchCategories} from "../http/categoryAPI";
 import {fetchGroups} from "../http/groupAPI";
-import {Button, Dropdown, Form, Modal} from "react-bootstrap";
+import {Button, Dropdown, Form, FormGroup, Modal} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 import {updateMaterial} from "../http/materialAPI";
 
@@ -19,6 +19,10 @@ const UpdateMaterial = observer(({material, show, onHide, onUpdate}) => {
         setFile(e.target.files[0])
     }
 
+    const titleError = title === ''
+    const descriptionError = description === ''
+    const fileError = file === null
+
     const updateExistMaterial = async () => {
         const formData = new FormData()
         formData.append('id', material.id)
@@ -30,7 +34,7 @@ const UpdateMaterial = observer(({material, show, onHide, onUpdate}) => {
         formData.append('categoryId', material.categoryId || category.selectedCategory.id)
         formData.append('subjectId', material.subjectId || subject.selectedSubject.id)
         formData.append('groupId', material.groupId || group.selectedGroup.id)
-        onUpdate({id: material.id, title, description, file, categoryId: material.categoryId, subjectId: material.subjectId, groupId: material.groupId})
+        onUpdate({id: material.id, title, description, file, date_publication: new Date().toISOString().split('T')[0], userId: user.user.id, categoryId: material.categoryId, subjectId: material.subjectId, groupId: material.groupId})
         await updateMaterial(material.id, formData).then(data => onHide())
 
     }
@@ -79,30 +83,42 @@ const UpdateMaterial = observer(({material, show, onHide, onUpdate}) => {
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Введите название"}
-                        value={title}
-                        onChange={e => setTitle(e.target.value)}
-                    >
-
-                    </Form.Control>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Введите описание"}
-                        value={description}
-                        onChange={e => setDescription(e.target.value)}
-                    >
-
-                    </Form.Control>
-                    <Form.Control
-                        className={"mt-3"}
-                        placeholder={"Выберите файл"}
-                        type="file"
-                        onChange={selectFile}
-                    >
-
-                    </Form.Control>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Введите название"}
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+                            required isInvalid={titleError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Некорректное название!
+                        </Form.Control.Feedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Введите описание"}
+                            value={description}
+                            onChange={e => setDescription(e.target.value)}
+                            required isInvalid={descriptionError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Некорректное описание!
+                        </Form.Control.Feedback>
+                    </FormGroup>
+                    <FormGroup>
+                        <Form.Control
+                            className={"mt-3"}
+                            placeholder={"Выберите файл"}
+                            type="file"
+                            onChange={selectFile}
+                            required isInvalid={fileError}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            Файл не выбран!
+                        </Form.Control.Feedback>
+                    </FormGroup>
                 </Form>
             </Modal.Body>
             <Modal.Footer>

@@ -6,9 +6,9 @@ import MaterialItem from "../components/MaterialItem";
 
 const FavoritesPage = () => {
     const {user} = useContext(Context)
-
     useEffect(() => {
         fetchFavorites(user.user.id).then(data => user.setFavorites(data))
+        console.log(user.favorites)
     },[user.favorites])
 
     return (
